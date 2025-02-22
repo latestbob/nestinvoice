@@ -36,5 +36,12 @@ update(@Param('id') id: string, @Body() updateInvoiceDto: UpdateInvoiceDto) {
     return this.invoicesService.update(+id, updateInvoiceDto);
 }
 
+// delete invoice
+
+@Delete(':id')
+remove(@Param('id') id: string) {
+    return this.invoicesService.remove(+id);
+}
+
 
 }

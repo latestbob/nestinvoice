@@ -47,6 +47,29 @@ export class InvoicesService {
     });
   }
 
+
+
+  async remove(id: number) {
+    const invoice = await this.prisma.invoice.findUnique({
+      where: { id },
+    });
+
+    if (!invoice) {
+      throw new NotFoundException(`Invoice with ID ${id} not found`);
+    }
+
+   
+  await this.prisma.invoice.delete({
+    where: { id },
+  });
+
+  return {
+    message: `Invoice with ID ${id} has been successfully deleted`,
+    success: true,
+  };
+
+    
+  }
 //   async filterInvoices(dateRange: { start: Date; end: Date }, paymentStatus: string) {
 //     return this.prisma.invoice.findMany({
 //       where: {
