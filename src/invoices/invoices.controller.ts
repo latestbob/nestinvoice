@@ -3,7 +3,7 @@ import { InvoicesService } from './invoices.service';
 import { CreateInvoiceDto } from './dtos/createInvoiceDto';
 import { UpdateInvoiceDto } from './dtos/updateInvoiceDto';
 
-@Controller('invoices')
+@Controller('api/invoices')
 export class InvoicesController {
     constructor(private readonly invoicesService: InvoicesService) {}
 
