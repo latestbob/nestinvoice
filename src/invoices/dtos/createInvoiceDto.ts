@@ -1,6 +1,8 @@
 import { IsString, IsNumber, IsDateString, IsEnum, IsOptional, IsArray, IsObject, } from 'class-validator';
 import { InvoiceStatus } from '@prisma/client';
 export class CreateInvoiceDto {
+@IsOptional()
+    
   @IsString()
   invoiceNumber: string;
 
@@ -13,9 +15,8 @@ export class CreateInvoiceDto {
   @IsNumber()
   grandTotal: number;
 
-  @IsArray()
-  @IsObject({ each: true })  // Ensures each item in the array is an object
-  items: Record<string, any>[];  // Accepts an array of objects// JSON can be stored as a string
+  @IsString()// Ensures each item in the array is an object
+  items: string;  // Accepts an array of objects// JSON can be stored as a string
 
   @IsEnum(InvoiceStatus)
   status: InvoiceStatus;

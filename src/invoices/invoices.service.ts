@@ -1,26 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
-// import { CreateInvoiceDto, UpdateInvoiceDto } from './dto';
+import { CreateInvoiceDto } from './dtos/createInvoiceDto';
 
 @Injectable()
 export class InvoicesService {
   constructor(private prisma: PrismaService) {}
 
-//   async create(createInvoiceDto: CreateInvoiceDto) {
-//     return this.prisma.invoice.create({
-//       data: createInvoiceDto,
-//     });
-//   }
+  async create(data: CreateInvoiceDto) {
+
+    data.invoiceNumber = Math.floor(Math.random() * 1000000).toString();
+    return this.prisma.invoice.create({ data });
+  }
 
   async findAll() {
     return this.prisma.invoice.findMany();
   }
 
-//   async findOne(id: number) {
-//     return this.prisma.invoice.findUnique({
-//       where: { id },
-//     });
-//   }
+
+//   find invoice by id
+  async findOne(id: number) {
+    const invoice = await this.prisma.invoice.findUnique({
+      where: { id }
+    });
+
+    if (!invoice) {
+      throw new NotFoundException(`Invoice with ID ${id} not found`);
+    }
+
+    return invoice;
+  }
 
 //   async update(id: number, updateInvoiceDto: UpdateInvoiceDto) {
 //     return this.prisma.invoice.update({

@@ -13,10 +13,18 @@ findAll() {
     return this.invoicesService.findAll();
 }
 
-// @Post()
-// create(@Body() createInvoiceDto: CreateInvoiceDto) {
-//     return this.invoicesService.create(createInvoiceDto);
-// }
+@Post()
+@UsePipes(new ValidationPipe({ whitelist: true }))
+create(@Body() createInvoiceDto: CreateInvoiceDto) {
+    return this.invoicesService.create(createInvoiceDto);
+}
   
+//get unique
+
+@Get(':id')
+findOne(@Param('id') id: string) {
+  return this.invoicesService.findOne(+id);
+
+}
 
 }
