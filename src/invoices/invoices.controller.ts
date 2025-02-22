@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { InvoicesService } from './invoices.service';
 import { CreateInvoiceDto } from './dtos/createInvoiceDto';
+import { UpdateInvoiceDto } from './dtos/updateInvoiceDto';
 
 @Controller('invoices')
 export class InvoicesController {
@@ -26,5 +27,14 @@ findOne(@Param('id') id: string) {
   return this.invoicesService.findOne(+id);
 
 }
+
+//update invoice
+
+@Put(':id')
+@UsePipes(new ValidationPipe({ whitelist: true }))
+update(@Param('id') id: string, @Body() updateInvoiceDto: UpdateInvoiceDto) {
+    return this.invoicesService.update(+id, updateInvoiceDto);
+}
+
 
 }
