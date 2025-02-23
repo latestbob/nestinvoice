@@ -8,7 +8,6 @@ export class InvoicesService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateInvoiceDto) {
-
     data.invoiceNumber = Math.floor(Math.random() * 1000000).toString();
     return this.prisma.invoice.create({ data });
   }
@@ -41,11 +40,10 @@ export class InvoicesService {
     return invoices;
   }
 
-
-//   find invoice by id
+  //   find invoice by id
   async findOne(id: number) {
     const invoice = await this.prisma.invoice.findUnique({
-      where: { id }
+      where: { id },
     });
 
     if (!invoice) {
@@ -54,7 +52,6 @@ export class InvoicesService {
 
     return invoice;
   }
-
 
   async update(id: number, updateInvoiceDto: UpdateInvoiceDto) {
     const invoice = await this.prisma.invoice.findUnique({
@@ -71,8 +68,6 @@ export class InvoicesService {
     });
   }
 
-
-
   async remove(id: number) {
     const invoice = await this.prisma.invoice.findUnique({
       where: { id },
@@ -82,27 +77,24 @@ export class InvoicesService {
       throw new NotFoundException(`Invoice with ID ${id} not found`);
     }
 
-   
-  await this.prisma.invoice.delete({
-    where: { id },
-  });
+    await this.prisma.invoice.delete({
+      where: { id },
+    });
 
-  return {
-    message: `Invoice with ID ${id} has been successfully deleted`,
-    success: true,
-  };
-
-    
+    return {
+      message: `Invoice with ID ${id} has been successfully deleted`,
+      success: true,
+    };
   }
-//   async filterInvoices(dateRange: { start: Date; end: Date }, paymentStatus: string) {
-//     return this.prisma.invoice.findMany({
-//       where: {
-//         date: {
-//           gte: dateRange.start,
-//           lte: dateRange.end,
-//         },
-//         paymentStatus,
-//       },
-//     });
-//   }
+  //   async filterInvoices(dateRange: { start: Date; end: Date }, paymentStatus: string) {
+  //     return this.prisma.invoice.findMany({
+  //       where: {
+  //         date: {
+  //           gte: dateRange.start,
+  //           lte: dateRange.end,
+  //         },
+  //         paymentStatus,
+  //       },
+  //     });
+  //   }
 }
