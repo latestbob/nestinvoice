@@ -9,7 +9,10 @@ export class UpdateInvoiceDto {
   @IsString()
   customerName: string;
 
+  @IsDateString()
+  dueDate: string;
 
+  
   @IsNumber()
   grandTotal: number;
 

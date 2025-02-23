@@ -13,8 +13,32 @@ export class InvoicesService {
     return this.prisma.invoice.create({ data });
   }
 
-  async findAll() {
-    return this.prisma.invoice.findMany();
+  async findAll(filters: {
+    status?: string;
+    startDate?: string;
+    endDate?: string;
+  }) {
+    const { status, startDate, endDate } = filters;
+
+    // Build the query dynamically
+    const where = {};
+    if (status) {
+      where['status'] = status;
+    }
+    if (startDate) {
+      where['dueDate'] = { gte: new Date(startDate) }; // Greater than or equal to startDate
+    }
+    if (endDate) {
+      where['dueDate'] = { ...where['due_date'], lte: new Date(endDate) }; // Less than or equal to endDate
+    }
+
+    // Fetch all matching invoices
+    const invoices = await this.prisma.invoice.findMany({
+      where,
+      orderBy: { createdAt: 'desc' }, // Order by createdAt in descending order
+    });
+
+    return invoices;
   }
 
 

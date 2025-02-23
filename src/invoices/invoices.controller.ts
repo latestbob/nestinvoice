@@ -9,10 +9,14 @@ export class InvoicesController {
 
     // get invoices
 
-@Get()
-findAll() {
-    return this.invoicesService.findAll();
-}
+    @Get()
+    findAll(
+      @Query('status') status?: string,
+      @Query('start_date') startDate?: string,
+      @Query('end_date') endDate?: string,
+    ) {
+      return this.invoicesService.findAll({ status, startDate, endDate });
+    }
 
 @Post()
 @UsePipes(new ValidationPipe({ whitelist: true }))
@@ -42,6 +46,7 @@ update(@Param('id') id: string, @Body() updateInvoiceDto: UpdateInvoiceDto) {
 remove(@Param('id') id: string) {
     return this.invoicesService.remove(+id);
 }
+
 
 
 }
